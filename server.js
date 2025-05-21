@@ -1,29 +1,37 @@
-//include Express
-const express = require('express');
+// Load the built-in http module
+const http = require('http');
 
-//set port
+// Set port
 const port = 3000;
 
-const app = express();
+// Create server
+const server = http.createServer((req, res) => {
+  // Set the Content-Type header
+  res.setHeader('Content-Type', 'text/html');
 
-app.get('/',(req,res)=>{
-    res.send(`
-	    <h1>Here's my home page</h1>
+  // Routing logic
+  if (req.url === '/') {
+    res.writeHead(200);
+    res.end(`
+      <h1>Here's my home page</h1>
       <p>Welcome to Express!</p>
-  `);
-
+    `);
+  } else if (req.url === '/about') {
+    res.writeHead(200);
+    res.end(`
+      <h1>Here's Newton's Node About Page</h1>
+      <p>Welcome to Express!</p>
+    `);
+  } else {
+    res.writeHead(404);
+    res.end(`
+      <h1>404 Not Found</h1>
+      <p>The page you're looking for doesn't exist.</p>
+    `);
+  }
 });
 
-app.get('/about',(req,res)=>{
-    res.send(`
-	    <h1>Here's Bill's Express About Page</h1>
-      <p>Welcome to Express!</p>
-  `);
-
-});
-
-
-//Set server to listen for requests
-app.listen(port, () => {
+// Start server
+server.listen(port, () => {
   console.log(`Server running at port: ${port}`);
 });
